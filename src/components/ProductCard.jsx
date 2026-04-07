@@ -36,10 +36,12 @@ export default function ProductCard({ product }) {
             <div className={`text-center p-6 ${isBundle ? 'text-white' : 'text-gray-400'}`}>
               {isBundle ? (
                 <div>
-                  <img src="/logo.svg" alt="ON" className="w-20 mx-auto mb-4 invert opacity-80" />
+                  <div className="w-16 h-16 mx-auto mb-3 border-2 border-brand-red rounded-full flex items-center justify-center">
+                    <span className="text-2xl font-black text-brand-red">ON</span>
+                  </div>
                   <p className="text-xs text-gray-400 space-y-0.5">
                     {product.bundleItems?.map((item, i) => (
-                      <span key={i} className="block">{item.name}</span>
+                      <span key={i} className="block">{typeof item === 'string' ? item : item.name}</span>
                     ))}
                   </p>
                 </div>

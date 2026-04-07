@@ -9,15 +9,21 @@ export default function Header() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <a href="#" className="flex items-center gap-3 no-underline">
-            <img src="/logo.svg" alt="Switching ON" className="h-10 w-auto" />
+          <a href="#" className="flex items-center gap-2.5 no-underline">
+            <div className="w-9 h-9 bg-black rounded-full flex items-center justify-center">
+              <span className="text-white font-black text-xs tracking-tighter">ON</span>
+            </div>
+            <div className="hidden sm:block">
+              <span className="block text-sm font-black text-black leading-none tracking-tight">SWITCHING ON</span>
+              <span className="block text-[10px] text-gray-400 font-medium">Basketball Club</span>
+            </div>
           </a>
 
           {/* Nav links - desktop */}
           <nav className="hidden md:flex items-center gap-8">
             <a href="#bundles" className="text-sm font-medium text-gray-600 hover:text-black transition no-underline">ערכות</a>
-            <a href="#kits" className="text-sm font-medium text-gray-600 hover:text-black transition no-underline">ביגוד משחק</a>
-            <a href="#clothing" className="text-sm font-medium text-gray-600 hover:text-black transition no-underline">ביגוד נוסף</a>
+            <a href="#kits" className="text-sm font-medium text-gray-600 hover:text-black transition no-underline">ביגוד ספורט</a>
+            <a href="#clothing" className="text-sm font-medium text-gray-600 hover:text-black transition no-underline">ביגוד כללי</a>
             <a href="#accessories" className="text-sm font-medium text-gray-600 hover:text-black transition no-underline">אביזרים</a>
           </nav>
 
