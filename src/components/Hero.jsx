@@ -1,32 +1,45 @@
 export default function Hero() {
+  const videoId = '1r2sE-i9NvQOVd2hvRVV-B3Hzp_FfXGKe';
+  const videoEmbedUrl = `https://drive.google.com/file/d/${videoId}/preview`;
+
   return (
-    <section className="relative bg-black text-white overflow-hidden">
-      {/* Background pattern */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute inset-0" style={{
-          backgroundImage: `repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(255,255,255,0.1) 35px, rgba(255,255,255,0.1) 70px)`,
-        }} />
+    <section className="relative bg-black text-white overflow-hidden min-h-[70vh] sm:min-h-[80vh] flex items-center">
+      {/* Video background */}
+      <div className="absolute inset-0 z-0">
+        <iframe
+          src={videoEmbedUrl}
+          className="w-full h-full object-cover pointer-events-none"
+          style={{ border: 'none', transform: 'scale(1.5)', transformOrigin: 'center center' }}
+          allow="autoplay; encrypted-media"
+          allowFullScreen={false}
+          title="Hero video"
+          loading="lazy"
+        />
+        {/* Dark overlay for text readability */}
+        <div className="absolute inset-0 bg-black/60" />
       </div>
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 py-16 sm:py-24 lg:py-32">
+      {/* Fallback gradient if video doesn't load */}
+      <div className="absolute inset-0 -z-10 bg-gradient-to-br from-black via-gray-900 to-black" />
+
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 py-16 sm:py-24 lg:py-32 w-full">
         <div className="text-center max-w-3xl mx-auto">
           {/* Club logo */}
           <div className="mb-8 inline-flex items-center justify-center">
-            <div className="w-24 h-24 sm:w-32 sm:h-32 bg-white rounded-full flex items-center justify-center shadow-2xl">
-              <div className="text-center">
-                <span className="block text-black font-black text-2xl sm:text-3xl tracking-tighter leading-none">ON</span>
-                <span className="block text-brand-red text-[8px] sm:text-[10px] font-bold tracking-wider uppercase mt-0.5">BASKETBALL</span>
-              </div>
-            </div>
+            <img
+              src="/logo.svg"
+              alt="Switching ON Basketball"
+              className="h-24 sm:h-32 lg:h-40 w-auto invert"
+            />
           </div>
 
           {/* Welcome text */}
           <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black mb-4 sm:mb-6 leading-tight">
             חנות המועדון
-            <span className="block text-brand-red">הרשמית</span>
+            <span className="block text-brand-red mt-1">הרשמית</span>
           </h1>
 
-          <p className="text-gray-400 text-base sm:text-lg lg:text-xl mb-8 sm:mb-10 max-w-xl mx-auto leading-relaxed">
+          <p className="text-gray-300 text-base sm:text-lg lg:text-xl mb-8 sm:mb-10 max-w-xl mx-auto leading-relaxed">
             ציוד מקצועי, עיצוב ייחודי ואיכות ללא פשרות.
             <br className="hidden sm:block" />
             הצטיידו לעונה עם הקולקציה החדשה.
@@ -46,7 +59,7 @@ export default function Hero() {
       </div>
 
       {/* Bottom fade */}
-      <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-white to-transparent" />
+      <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-white to-transparent z-10" />
     </section>
   );
 }

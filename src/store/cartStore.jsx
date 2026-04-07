@@ -18,15 +18,17 @@ export function CartProvider({ children }) {
       id: `${product.id}-${Date.now()}`,
       productId: product.id,
       name: product.name,
-      price: product.price,
+      unitPrice: options.unitPrice ?? options.price ?? 0,
       size: options.size,
+      color: options.color || '',
+      colorId: options.colorId || '',
       print: options.print,
       emblem: options.emblem,
       playerName: options.playerName || '',
       playerNumber: options.playerNumber ?? '',
       printCost: options.printCost || 0,
-      quantity: 1,
-      image: product.image,
+      quantity: options.quantity || 1,
+      image: product.images?.[options.colorId]?.[0] || null,
     };
     setItems((prev) => [...prev, cartItem]);
     setIsCartOpen(true);
@@ -49,7 +51,7 @@ export function CartProvider({ children }) {
 
   const itemCount = items.reduce((sum, i) => sum + i.quantity, 0);
   const subtotal = items.reduce(
-    (sum, i) => sum + (i.price + i.printCost) * i.quantity,
+    (sum, i) => sum + (i.unitPrice + i.printCost) * i.quantity,
     0
   );
   const shipping = 50;

@@ -1,19 +1,22 @@
 import { useState, useMemo } from 'react';
-import { PRINT_OPTIONS, EMBLEM_OPTIONS } from '../data/products';
+import { PRINT_OPTIONS, EMBLEM_OPTIONS, getPriceForQuantity } from '../data/products';
 import { useCart } from '../store/cartStore.jsx';
 import JerseyPreview from './JerseyPreview';
 import { CheckIcon, SparklesIcon } from './Icons';
 
 const MAX_NAME_LENGTH = 14;
 
-export default function ProductCustomizer({ product, onClose }) {
+export default function ProductCustomizer({ product, initialColor, onClose }) {
   const { addItem } = useCart();
+  const [selectedColor, setSelectedColor] = useState(initialColor || product.colors[0]?.id || '');
   const [size, setSize] = useState('');
+  const [quantity, setQuantity] = useState(1);
   const [printOption, setPrintOption] = useState('none');
   const [emblem, setEmblem] = useState(product.hasEmblem ? 'club' : 'none');
   const [playerName, setPlayerName] = useState('');
   const [playerNumber, setPlayerNumber] = useState('');
   const [added, setAdded] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   const needsName = printOption === 'name' || printOption === 'name_number';
   const needsNumber = printOption === 'number' || printOption === 'name_number';
@@ -23,9 +26,15 @@ export default function ProductCustomizer({ product, onClose }) {
     return opt ? opt.price : 0;
   }, [printOption]);
 
-  const totalPrice = product.price + printCost;
+  const unitPrice = getPriceForQuantity(product, quantity);
+  const totalPrice = (unitPrice + printCost) * quantity;
 
-  const isValid = size !== '' && (!needsName || playerName.trim().length > 0) && (!needsNumber || (playerNumber !== '' && Number(playerNumber) >= 0 && Number(playerNumber) <= 99));
+  const currentImages = product.images[selectedColor] || product.images[product.colors[0]?.id] || [];
+
+  const isValid =
+    size !== '' &&
+    (!needsName || playerName.trim().length > 0) &&
+    (!needsNumber || (playerNumber !== '' && Number(playerNumber) >= 0 && Number(playerNumber) <= 99));
 
   function handleNumberChange(val) {
     if (val === '') { setPlayerNumber(''); return; }
@@ -37,13 +46,18 @@ export default function ProductCustomizer({ product, onClose }) {
 
   function handleAdd() {
     if (!isValid) return;
+    const colorObj = product.colors.find(c => c.id === selectedColor);
     addItem(product, {
       size,
+      quantity,
+      color: colorObj?.name || '',
+      colorId: selectedColor,
       print: printOption,
       emblem,
       playerName: needsName ? playerName.trim() : '',
       playerNumber: needsNumber ? playerNumber : '',
       printCost,
+      unitPrice,
     });
     setAdded(true);
     setTimeout(() => {
@@ -54,10 +68,8 @@ export default function ProductCustomizer({ product, onClose }) {
 
   return (
     <div className="fixed inset-0 z-[60] flex items-end sm:items-center justify-center">
-      {/* Overlay */}
       <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={onClose} />
 
-      {/* Modal */}
       <div className="relative bg-white w-full sm:max-w-lg sm:rounded-2xl rounded-t-2xl max-h-[90vh] overflow-y-auto shadow-2xl">
         {/* Header */}
         <div className="sticky top-0 bg-white z-10 px-5 py-4 border-b border-gray-100 flex items-center justify-between">
@@ -69,8 +81,36 @@ export default function ProductCustomizer({ product, onClose }) {
         </div>
 
         <div className="p-5 space-y-6">
-          {/* Preview */}
-          {product.customizable && (
+          {/* Image gallery */}
+          {currentImages.length > 0 && (
+            <div className="bg-gray-50 rounded-xl overflow-hidden">
+              <div className="aspect-square flex items-center justify-center">
+                <img
+                  src={currentImages[currentImageIndex] || currentImages[0]}
+                  alt={product.name}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              {currentImages.length > 1 && (
+                <div className="flex gap-2 p-3 justify-center">
+                  {currentImages.map((img, i) => (
+                    <button
+                      key={i}
+                      onClick={() => setCurrentImageIndex(i)}
+                      className={`w-14 h-14 rounded-lg overflow-hidden border-2 cursor-pointer ${
+                        currentImageIndex === i ? 'border-black' : 'border-transparent'
+                      }`}
+                    >
+                      <img src={img} alt="" className="w-full h-full object-cover" />
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Jersey Preview (for customizable without images) */}
+          {product.customizable && currentImages.length === 0 && (
             <div className="bg-gray-50 rounded-xl p-6">
               <JerseyPreview
                 playerName={playerName}
@@ -78,6 +118,32 @@ export default function ProductCustomizer({ product, onClose }) {
                 emblem={emblem}
                 productName={product.name}
               />
+            </div>
+          )}
+
+          {/* Color selector */}
+          {product.colors.length > 1 && (
+            <div>
+              <label className="block text-sm font-bold text-black mb-3">צבע</label>
+              <div className="flex flex-wrap gap-2">
+                {product.colors.map((color) => (
+                  <button
+                    key={color.id}
+                    onClick={() => { setSelectedColor(color.id); setCurrentImageIndex(0); }}
+                    className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium border transition-all cursor-pointer ${
+                      selectedColor === color.id
+                        ? 'bg-black text-white border-black'
+                        : 'bg-white text-gray-700 border-gray-200 hover:border-black'
+                    }`}
+                  >
+                    <span
+                      className={`w-4 h-4 rounded-full ${color.border && selectedColor !== color.id ? 'border border-gray-300' : ''}`}
+                      style={{ backgroundColor: color.hex }}
+                    />
+                    {color.name}
+                  </button>
+                ))}
+              </div>
             </div>
           )}
 
@@ -103,6 +169,55 @@ export default function ProductCustomizer({ product, onClose }) {
             </div>
           </div>
 
+          {/* Quantity */}
+          <div>
+            <label className="block text-sm font-bold text-black mb-3">כמות</label>
+            <div className="flex items-center gap-3">
+              <div className="flex items-center bg-gray-50 rounded-lg border border-gray-200">
+                <button
+                  onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                  className="px-3 py-2 text-gray-500 hover:text-black transition bg-transparent border-none cursor-pointer text-lg font-bold"
+                >
+                  −
+                </button>
+                <span className="px-4 py-2 text-sm font-bold min-w-[40px] text-center">{quantity}</span>
+                <button
+                  onClick={() => setQuantity(quantity + 1)}
+                  className="px-3 py-2 text-gray-500 hover:text-black transition bg-transparent border-none cursor-pointer text-lg font-bold"
+                >
+                  +
+                </button>
+              </div>
+              {product.pricing.length > 1 && (
+                <span className="text-xs text-gray-400">
+                  {unitPrice < product.pricing[0].price ? (
+                    <span className="text-green-600 font-bold">₪{unitPrice} ליחידה — מחיר כמותי!</span>
+                  ) : (
+                    `₪${unitPrice} ליחידה`
+                  )}
+                </span>
+              )}
+            </div>
+
+            {/* Quantity tier info */}
+            {product.pricing.length > 1 && (
+              <div className="mt-2 flex flex-wrap gap-1.5">
+                {product.pricing.map((tier, i) => (
+                  <span
+                    key={i}
+                    className={`inline-block text-[10px] px-2 py-0.5 rounded-full ${
+                      quantity >= tier.min && (i === product.pricing.length - 1 || quantity < product.pricing[i + 1]?.min)
+                        ? 'bg-green-100 text-green-700 font-bold'
+                        : 'bg-gray-100 text-gray-500'
+                    }`}
+                  >
+                    {tier.min === 1 ? 'יח׳ בודדת' : `${tier.min}+ יח׳`}: ₪{tier.price}
+                  </span>
+                ))}
+              </div>
+            )}
+          </div>
+
           {/* Print options */}
           {product.customizable && (
             <>
@@ -126,7 +241,7 @@ export default function ProductCustomizer({ product, onClose }) {
                         onChange={(e) => setPrintOption(e.target.value)}
                         className="sr-only"
                       />
-                      <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
+                      <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 ${
                         printOption === opt.id ? 'border-black' : 'border-gray-300'
                       }`}>
                         {printOption === opt.id && <div className="w-2.5 h-2.5 rounded-full bg-black" />}
@@ -205,13 +320,19 @@ export default function ProductCustomizer({ product, onClose }) {
           {/* Price summary */}
           <div className="bg-gray-50 rounded-xl p-4">
             <div className="flex items-center justify-between">
-              <span className="text-sm text-gray-600">מחיר מוצר</span>
-              <span className="text-sm font-medium">₪{product.price}</span>
+              <span className="text-sm text-gray-600">מחיר ליחידה</span>
+              <span className="text-sm font-medium">₪{unitPrice}</span>
             </div>
             {printCost > 0 && (
               <div className="flex items-center justify-between mt-1">
                 <span className="text-sm text-gray-600">הדפסה</span>
                 <span className="text-sm font-medium text-brand-red">+₪{printCost}</span>
+              </div>
+            )}
+            {quantity > 1 && (
+              <div className="flex items-center justify-between mt-1">
+                <span className="text-sm text-gray-600">כמות</span>
+                <span className="text-sm font-medium">×{quantity}</span>
               </div>
             )}
             <div className="border-t border-gray-200 mt-3 pt-3 flex items-center justify-between">

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useCart } from '../store/cartStore.jsx';
-import { CloseIcon, CheckIcon, ShieldIcon } from './Icons';
+import { CheckIcon, ShieldIcon } from './Icons';
 
 export default function Checkout() {
   const { items, subtotal, shipping, total, isCheckoutOpen, setIsCheckoutOpen, clearCart } = useCart();
@@ -41,13 +41,9 @@ export default function Checkout() {
       setErrors(errs);
       return;
     }
-
-    // In production, this would submit to a payment processor
     console.log('Order submitted:', { items, formData, total });
     setSubmitted(true);
-    setTimeout(() => {
-      clearCart();
-    }, 500);
+    setTimeout(() => { clearCart(); }, 500);
   }
 
   const printLabels = {
@@ -92,7 +88,6 @@ export default function Checkout() {
       <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setIsCheckoutOpen(false)} />
 
       <div className="relative bg-white w-full sm:max-w-xl sm:rounded-2xl rounded-t-2xl max-h-[95vh] overflow-y-auto shadow-2xl">
-        {/* Header */}
         <div className="sticky top-0 bg-white z-10 px-5 py-4 border-b border-gray-100 flex items-center justify-between">
           <h2 className="text-lg font-bold text-black">השלמת הזמנה</h2>
           <button onClick={() => setIsCheckoutOpen(false)} className="text-gray-400 hover:text-black transition text-2xl bg-transparent border-none cursor-pointer p-1">✕</button>
@@ -105,16 +100,16 @@ export default function Checkout() {
             <div className="space-y-2">
               {items.map((item) => (
                 <div key={item.id} className="flex justify-between text-sm">
-                  <div className="flex-1">
+                  <div className="flex-1 min-w-0">
                     <span className="font-medium">{item.name}</span>
-                    <span className="text-gray-400 text-xs block">
-                      {item.size} • {item.quantity}x
+                    <span className="text-gray-400 text-xs block truncate">
+                      {item.size} {item.color && `• ${item.color}`} • {item.quantity}x
                       {item.print !== 'none' && ` • ${printLabels[item.print]}`}
                       {item.playerName && `: ${item.playerName}`}
                       {item.playerNumber !== '' && ` #${item.playerNumber}`}
                     </span>
                   </div>
-                  <span className="font-medium">₪{(item.price + item.printCost) * item.quantity}</span>
+                  <span className="font-medium shrink-0 mr-2">₪{(item.unitPrice + item.printCost) * item.quantity}</span>
                 </div>
               ))}
             </div>
@@ -197,7 +192,7 @@ export default function Checkout() {
             </div>
           </div>
 
-          {/* Policy notices */}
+          {/* Policy */}
           <div className="bg-gray-50 rounded-xl p-4 space-y-2">
             <div className="flex items-start gap-2">
               <ShieldIcon className="w-4 h-4 text-brand-red mt-0.5 shrink-0" />
@@ -208,11 +203,10 @@ export default function Checkout() {
               <br />
               • זמן אספקה: עד 7 ימי עסקים
               <br />
-              • אין החלפות על ביגוד מודפס/מותאם אישית
+              • אין החלפות על ביגוד מודפס / מותאם אישית
             </p>
           </div>
 
-          {/* Submit */}
           <button
             type="submit"
             className="w-full py-4 bg-brand-red hover:bg-brand-red-hover text-white rounded-xl text-base font-bold transition-all duration-200 hover:scale-[1.01] active:scale-[0.99] border-none cursor-pointer shadow-lg shadow-red-200"

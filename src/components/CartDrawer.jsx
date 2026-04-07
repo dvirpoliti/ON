@@ -19,10 +19,8 @@ export default function CartDrawer() {
 
   return (
     <div className="fixed inset-0 z-[70] flex">
-      {/* Overlay */}
       <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={() => setIsCartOpen(false)} />
 
-      {/* Drawer */}
       <div className="relative mr-auto bg-white w-full max-w-md h-full shadow-2xl flex flex-col animate-slide-in">
         {/* Header */}
         <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
@@ -50,11 +48,28 @@ export default function CartDrawer() {
             <div className="space-y-4">
               {items.map((item) => (
                 <div key={item.id} className="bg-gray-50 rounded-xl p-4">
-                  <div className="flex items-start justify-between mb-3">
-                    <div className="flex-1">
-                      <h4 className="text-sm font-bold text-black">{item.name}</h4>
-                      <div className="flex flex-wrap gap-x-3 gap-y-1 mt-1">
+                  <div className="flex items-start gap-3">
+                    {/* Thumbnail */}
+                    {item.image && (
+                      <div className="w-16 h-16 rounded-lg overflow-hidden shrink-0 bg-gray-200">
+                        <img src={item.image} alt="" className="w-full h-full object-cover" />
+                      </div>
+                    )}
+
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-start justify-between">
+                        <h4 className="text-sm font-bold text-black truncate">{item.name}</h4>
+                        <button
+                          onClick={() => removeItem(item.id)}
+                          className="p-1 text-gray-300 hover:text-red-500 transition bg-transparent border-none cursor-pointer shrink-0 mr-2"
+                          aria-label="הסר פריט"
+                        >
+                          <TrashIcon className="w-4 h-4" />
+                        </button>
+                      </div>
+                      <div className="flex flex-wrap gap-x-3 gap-y-0.5 mt-1">
                         <span className="text-xs text-gray-500">מידה: {item.size}</span>
+                        {item.color && <span className="text-xs text-gray-500">צבע: {item.color}</span>}
                         {item.print !== 'none' && (
                           <span className="text-xs text-gray-500">{printLabels[item.print]}</span>
                         )}
@@ -62,25 +77,17 @@ export default function CartDrawer() {
                           <span className="text-xs text-gray-500">שם: {item.playerName}</span>
                         )}
                         {item.playerNumber !== '' && (
-                          <span className="text-xs text-gray-500">מספר: {item.playerNumber}</span>
+                          <span className="text-xs text-gray-500">#{item.playerNumber}</span>
                         )}
                       </div>
                     </div>
-                    <button
-                      onClick={() => removeItem(item.id)}
-                      className="p-1.5 text-gray-300 hover:text-red-500 transition bg-transparent border-none cursor-pointer"
-                      aria-label="הסר פריט"
-                    >
-                      <TrashIcon className="w-4 h-4" />
-                    </button>
                   </div>
 
-                  <div className="flex items-center justify-between">
-                    {/* Quantity */}
+                  <div className="flex items-center justify-between mt-3">
                     <div className="flex items-center gap-1 bg-white rounded-lg border border-gray-200">
                       <button
                         onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                        className="p-1.5 text-gray-400 hover:text-black transition bg-transparent border-none cursor-pointer"
+                        className="p-1.5 text-gray-400 hover:text-black transition bg-transparent border-none cursor-pointer disabled:opacity-30"
                         disabled={item.quantity <= 1}
                       >
                         <MinusIcon className="w-4 h-4" />
@@ -93,9 +100,8 @@ export default function CartDrawer() {
                         <PlusIcon className="w-4 h-4" />
                       </button>
                     </div>
-
                     <span className="text-sm font-bold text-black">
-                      ₪{(item.price + item.printCost) * item.quantity}
+                      ₪{(item.unitPrice + item.printCost) * item.quantity}
                     </span>
                   </div>
                 </div>
