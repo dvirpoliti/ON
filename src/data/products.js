@@ -135,8 +135,8 @@ export const products = [
     ],
     images: {
       red: [img('17-2-1500x1000.png')],
-      blue: [img('16-1-1500x1000.png')],
-      black: [img('16-2-1500x1000.png')],
+      blue: [img('17-2-1500x1000.png')],
+      black: [img('17-2-1500x1000.png')],
     },
     pricing: [
       { min: 1, price: 82 },
@@ -157,8 +157,8 @@ export const products = [
     ],
     images: {
       red: [img('17-2-1500x1000.png')],
-      blue: [img('16-1-1500x1000.png')],
-      black: [img('16-2-1500x1000.png')],
+      blue: [img('17-2-1500x1000.png')],
+      black: [img('17-2-1500x1000.png')],
     },
     pricing: [
       { min: 1, price: 99 },
@@ -236,6 +236,43 @@ export const products = [
     },
     pricing: [
       { min: 1, price: 149 },
+    ],
+  },
+
+  {
+    id: 'kit-tights-long',
+    name: 'טייץ ארוך ON',
+    description: 'טייץ דחיסה ארוך עם לוגו ON — תמיכה מלאה לשרירים במהלך אימונים ומשחקים.',
+    category: 'kits',
+    customizable: false,
+    hasEmblem: false,
+    sizes: SIZES_ALL,
+    colors: [
+      { id: 'black', name: 'שחור', hex: '#111111' },
+    ],
+    images: {
+      black: [img('8-1-1500x1000.png')],
+    },
+    pricing: [
+      { min: 1, price: 74 },
+    ],
+  },
+  {
+    id: 'kit-tights-short',
+    name: 'טייץ קצר ON',
+    description: 'טייץ דחיסה קצר (3/4) עם לוגו ON — חופש תנועה מקסימלי.',
+    category: 'kits',
+    customizable: false,
+    hasEmblem: false,
+    sizes: SIZES_ALL,
+    colors: [
+      { id: 'black', name: 'שחור', hex: '#111111' },
+    ],
+    images: {
+      black: [img('8-1-1500x1000.png')],
+    },
+    pricing: [
+      { min: 1, price: 62 },
     ],
   },
 
@@ -463,10 +500,12 @@ export const products = [
     hasEmblem: false,
     sizes: SIZES_ONE,
     colors: [
+      { id: 'gray', name: 'אפור', hex: '#9CA3AF' },
       { id: 'black', name: 'שחור', hex: '#333333' },
     ],
     images: {
-      black: [img('8127.png'), img('8127-0-8129.png'), img('8127-1-8128.png')],
+      gray: [img('16-1-1500x1000.png'), img('8127-1-8128.png')],
+      black: [img('16-2-1500x1000.png'), img('8127.png'), img('8127-0-8129.png')],
     },
     pricing: [
       { min: 1, price: 57 },
