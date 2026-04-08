@@ -224,8 +224,21 @@ export default function ProductCustomizer({ product, initialColor, onClose }) {
                     )}
                     <button onClick={applyPreview} disabled={!hasPreviewInput}
                       className={`w-full py-3 rounded-xl text-xs font-bold uppercase tracking-wider border transition-all cursor-pointer ${hasPreviewInput ? 'bg-[#111] text-white border-[#111] hover:bg-[#333]' : 'bg-[#f5f5f5] text-[#ccc] border-[#e5e5e5] cursor-not-allowed'}`}>
-                      {previewApplied ? '✓ הדמיה מוכנה — צפה בתמונה' : 'החל — צפה בהדמיה'}
+                      {previewApplied ? '✓ הדמיה מוכנה' : 'החל — צפה בהדמיה'}
                     </button>
+
+                    {/* Live preview — front + back */}
+                    {previewApplied && (
+                      <div className="bg-[#f5f5f5] rounded-2xl p-4 sm:p-6 border border-[#e5e5e5] mt-1">
+                        <p className="text-[10px] font-bold text-[#999] uppercase tracking-widest text-center mb-3">תצוגה מקדימה — חזית וגב</p>
+                        <JerseyPreview
+                          playerName={previewName}
+                          playerNumber={previewNumber}
+                          emblem={previewClubLogo ? 'club' : 'on_only'}
+                          productName={product.name}
+                        />
+                      </div>
+                    )}
                   </div>
                 )}
               </>
