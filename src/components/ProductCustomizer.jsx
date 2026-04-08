@@ -344,10 +344,10 @@ export default function ProductCustomizer({ product, initialColor, onClose }) {
                     {previewApplied ? '✓ הדמיה מוכנה' : 'החל — צפה בהדמיה'}
                   </button>
 
-                  {/* Live preview area */}
+                  {/* Live preview area — front + back */}
                   {previewApplied && (
-                    <div className="bg-[#f5f5f5] rounded-2xl p-6 border-2 border-[#e5e5e5]">
-                      <p className="text-[10px] font-bold text-[#999] uppercase tracking-widest text-center mb-4">תצוגה מקדימה</p>
+                    <div className="bg-[#f5f5f5] rounded-2xl p-5 sm:p-8 border-2 border-[#e5e5e5]">
+                      <p className="text-[10px] font-bold text-[#999] uppercase tracking-widest text-center mb-5">תצוגה מקדימה — חזית וגב</p>
                       <JerseyPreview
                         playerName={previewName}
                         playerNumber={previewNumber}
