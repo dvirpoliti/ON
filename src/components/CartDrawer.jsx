@@ -131,7 +131,7 @@ export default function CartDrawer() {
                 setIsCartOpen(false);
                 setIsCheckoutOpen(true);
               }}
-              className="w-full py-4 bg-brand-red hover:bg-brand-red-hover text-white rounded-xl text-base font-bold transition-all duration-200 hover:scale-[1.01] active:scale-[0.99] border-none cursor-pointer shadow-lg shadow-red-200"
+              className="w-full py-4 bg-brand-red hover:bg-brand-red-hover text-white rounded-xl text-base font-bold transition-all duration-200 hover:scale-[1.01] active:scale-[0.99] border-none cursor-pointer shadow-lg shadow-red-200/50"
             >
               לתשלום — ₪{total}
             </button>

@@ -16,7 +16,7 @@ export default function ProductCard({ product }) {
     <>
       <div
         onClick={() => setShowCustomizer(true)}
-        className={`group relative cursor-pointer overflow-hidden ${isBundle ? '' : ''}`}
+        className="group cursor-pointer"
       >
         {/* Badge */}
         {product.badge && (
@@ -26,20 +26,20 @@ export default function ProductCard({ product }) {
         )}
 
         {/* Image */}
-        <div className={`relative aspect-[4/5] overflow-hidden rounded-xl ${isBundle ? 'bg-gradient-to-br from-gray-900 to-black' : 'bg-[#f5f5f5]'}`}>
+        <div className={`relative aspect-[4/5] overflow-hidden rounded-2xl ${isBundle ? 'bg-gradient-to-br from-[#111] to-[#222]' : 'bg-[#f5f5f5]'}`}>
           {mainImage ? (
             <img
               src={mainImage}
               alt={product.name}
-              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+              className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-700 ease-out"
               loading="lazy"
             />
           ) : (
-            <div className={`w-full h-full flex flex-col items-center justify-center ${isBundle ? 'text-white' : 'text-gray-300'}`}>
+            <div className={`w-full h-full flex flex-col items-center justify-center p-6 ${isBundle ? 'text-white' : 'text-[#ccc]'}`}>
               {isBundle ? (
-                <div className="text-center px-6">
-                  <div className="w-20 h-20 mx-auto mb-4 border-2 border-brand-red rounded-full flex items-center justify-center">
-                    <span className="text-3xl font-black text-brand-red">ON</span>
+                <div className="text-center">
+                  <div className="w-16 h-16 mx-auto mb-4 border-2 border-brand-red rounded-full flex items-center justify-center">
+                    <span className="text-2xl font-black text-brand-red">ON</span>
                   </div>
                   <div className="space-y-1">
                     {product.bundleItems?.map((item, i) => (
@@ -54,39 +54,43 @@ export default function ProductCard({ product }) {
               )}
             </div>
           )}
+
+          {/* Hover overlay */}
+          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors duration-300 rounded-2xl" />
         </div>
 
-        {/* Info — minimal: name + colors + price */}
-        <div className="pt-3 pb-1">
-          <h3 className="text-sm sm:text-base font-bold text-black leading-tight">{product.name}</h3>
+        {/* Info */}
+        <div className="pt-3 pb-2">
+          <h3 className="text-sm font-bold text-[#111] group-hover:text-brand-red transition-colors leading-tight">
+            {product.name}
+          </h3>
 
           {/* Color dots */}
           {product.colors.length > 1 && (
-            <div className="flex gap-1 mt-2">
-              {product.colors.slice(0, 6).map((color) => (
+            <div className="flex gap-1.5 mt-2">
+              {product.colors.slice(0, 5).map((color) => (
                 <span
                   key={color.id}
-                  className={`w-3.5 h-3.5 rounded-full ${color.border ? 'border border-gray-300' : ''}`}
+                  className={`w-3 h-3 rounded-full ${color.border ? 'border border-[#ddd]' : ''}`}
                   style={{ backgroundColor: color.hex }}
                 />
               ))}
-              {product.colors.length > 6 && (
-                <span className="text-[10px] text-gray-400 self-center mr-0.5">+{product.colors.length - 6}</span>
+              {product.colors.length > 5 && (
+                <span className="text-[10px] text-[#999] self-center">+{product.colors.length - 5}</span>
               )}
             </div>
           )}
 
           {/* Price */}
           <div className="flex items-baseline gap-2 mt-2">
-            <span className="text-base sm:text-lg font-black text-black">₪{basePrice}</span>
+            <span className="text-base font-black text-[#111]">₪{basePrice}</span>
             {hasDiscount && (
-              <span className="text-xs text-gray-400 line-through">₪{product.originalPrice}</span>
+              <span className="text-xs text-[#999] line-through">₪{product.originalPrice}</span>
             )}
           </div>
         </div>
       </div>
 
-      {/* Product modal */}
       {showCustomizer && (
         <ProductCustomizer
           product={product}

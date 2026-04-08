@@ -2,12 +2,13 @@
 
 @theme {
   --font-heebo: 'Heebo', sans-serif;
-  --color-brand-red: #E63946;
-  --color-brand-red-hover: #D62839;
+  --color-brand-red: #D62828;
+  --color-brand-red-hover: #B71C1C;
   --color-brand-dark: #111111;
   --color-brand-gray: #F5F5F5;
-  --color-brand-mid-gray: #8A8A8A;
-  --color-brand-border: #E0E0E0;
+  --color-brand-mid-gray: #666666;
+  --color-brand-border: #E5E5E5;
+  --color-brand-success: #1F6B4F;
 }
 
 * {
