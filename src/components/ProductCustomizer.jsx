@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { PRINT_OPTIONS, EMBLEM_OPTIONS, getPriceForQuantity } from '../data/products';
+import { PRINT_OPTIONS, getPriceForQuantity } from '../data/products';
 import { useCart } from '../store/cartStore.jsx';
 import JerseyPreview from './JerseyPreview';
 import { CheckIcon, SparklesIcon } from './Icons';
@@ -12,7 +12,7 @@ export default function ProductCustomizer({ product, initialColor, onClose }) {
   const [size, setSize] = useState('');
   const [quantity, setQuantity] = useState(1);
   const [printOption, setPrintOption] = useState('none');
-  const [emblem, setEmblem] = useState(product.hasEmblem ? 'club' : 'none');
+  const [clubLogo, setClubLogo] = useState(true);
   const [playerName, setPlayerName] = useState('');
   const [playerNumber, setPlayerNumber] = useState('');
   const [added, setAdded] = useState(false);
@@ -53,7 +53,7 @@ export default function ProductCustomizer({ product, initialColor, onClose }) {
       color: colorObj?.name || '',
       colorId: selectedColor,
       print: printOption,
-      emblem,
+      emblem: clubLogo ? 'club' : 'on_only',
       playerName: needsName ? playerName.trim() : '',
       playerNumber: needsNumber ? playerNumber : '',
       printCost,
@@ -118,6 +118,28 @@ export default function ProductCustomizer({ product, initialColor, onClose }) {
                 emblem={emblem}
                 productName={product.name}
               />
+            </div>
+          )}
+
+          {/* Description */}
+          <p className="text-sm text-gray-600 leading-relaxed">{product.description}</p>
+
+          {/* Quantity pricing table */}
+          {product.pricing.length > 1 && (
+            <div className="bg-gray-50 rounded-xl p-4">
+              <p className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3">מחירון כמותי</p>
+              <div className="grid grid-cols-3 gap-2">
+                {product.pricing.map((tier, i) => (
+                  <div key={i} className={`text-center rounded-lg py-2.5 px-2 ${i === product.pricing.length - 1 ? 'bg-brand-red/10 border-2 border-brand-red/20' : 'bg-white border border-gray-100'}`}>
+                    <span className="block text-[10px] text-gray-400 font-medium uppercase">
+                      {tier.min === 1 ? 'יחידה' : `${tier.min}+ יח׳`}
+                    </span>
+                    <span className={`block text-lg font-black mt-0.5 ${i === product.pricing.length - 1 ? 'text-brand-red' : 'text-black'}`}>
+                      ₪{tier.price}
+                    </span>
+                  </div>
+                ))}
+              </div>
             </div>
           )}
 
@@ -293,27 +315,28 @@ export default function ProductCustomizer({ product, initialColor, onClose }) {
                 </div>
               )}
 
-              {/* Emblem selection */}
-              {product.hasEmblem && (
-                <div>
-                  <label className="block text-sm font-bold text-black mb-3">סמל</label>
-                  <div className="flex flex-wrap gap-2">
-                    {EMBLEM_OPTIONS.map((opt) => (
-                      <button
-                        key={opt.id}
-                        onClick={() => setEmblem(opt.id)}
-                        className={`px-4 py-2 rounded-lg text-sm font-medium border transition-all cursor-pointer ${
-                          emblem === opt.id
-                            ? 'bg-black text-white border-black'
-                            : 'bg-white text-gray-700 border-gray-200 hover:border-black'
-                        }`}
-                      >
-                        {opt.label}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              )}
+              {/* Branding info + club logo toggle */}
+              <div className="bg-gray-50 rounded-lg p-3">
+                <p className="text-xs text-gray-500 mb-2">
+                  <span className="font-bold text-black">לוגו ON</span> — כלול תמיד בכל מוצר
+                </p>
+                {product.hasEmblem && (
+                  <label className="flex items-center gap-3 cursor-pointer">
+                    <div className="relative">
+                      <input
+                        type="checkbox"
+                        checked={clubLogo}
+                        onChange={(e) => setClubLogo(e.target.checked)}
+                        className="sr-only"
+                      />
+                      <div className={`w-10 h-6 rounded-full transition-colors ${clubLogo ? 'bg-brand-red' : 'bg-gray-300'}`}>
+                        <div className={`w-4 h-4 bg-white rounded-full shadow absolute top-1 transition-all ${clubLogo ? 'left-5' : 'left-1'}`} />
+                      </div>
+                    </div>
+                    <span className="text-sm font-medium">הוסף סמל מועדון</span>
+                  </label>
+                )}
+              </div>
             </>
           )}
 

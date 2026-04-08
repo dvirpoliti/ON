@@ -2,7 +2,7 @@ export default function JerseyPreview({ playerName, playerNumber, emblem, produc
   const hasName = playerName && playerName.trim().length > 0;
   const hasNumber = playerNumber !== '' && playerNumber !== undefined && playerNumber !== null;
   const showClubEmblem = emblem === 'club';
-  const showOnLogo = emblem === 'on_logo' || emblem === 'club';
+  const showOnLogo = true; // ON logo is always included
 
   return (
     <div className="relative w-full max-w-[220px] mx-auto">

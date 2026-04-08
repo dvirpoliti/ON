@@ -3,23 +3,18 @@
 // Source of truth: AllAround reference site + uploaded images
 // =============================================
 
-export const SIZES_ADULT = ['S', 'M', 'L', 'XL', 'XXL'];
+export const SIZES_ADULT = ['S', 'M', 'L', 'XL', '2XL', '3XL', '4XL'];
 export const SIZES_KIDS = ['6', '8', '10', '12', '14', '16'];
 export const SIZES_ALL = [...SIZES_KIDS, ...SIZES_ADULT];
 export const SIZES_SOCKS = ['S (35-38)', 'M (39-42)', 'L (43-46)'];
 export const SIZES_ONE = ['אחיד'];
 
+// ON logo is ALWAYS included. These are ADDITIONAL options.
 export const PRINT_OPTIONS = [
-  { id: 'none', label: 'ללא הדפסה', price: 0 },
+  { id: 'none', label: 'ללא הדפסה נוספת', price: 0 },
   { id: 'number', label: 'מספר בלבד', price: 10 },
   { id: 'name', label: 'שם בלבד', price: 10 },
   { id: 'name_number', label: 'שם + מספר', price: 20 },
-];
-
-export const EMBLEM_OPTIONS = [
-  { id: 'club', label: 'סמל המועדון', price: 0 },
-  { id: 'on_logo', label: 'לוגו ON בלבד', price: 0 },
-  { id: 'none', label: 'ללא סמל', price: 0 },
 ];
 
 export const CATEGORIES = [
@@ -59,6 +54,30 @@ export const products = [
     },
     pricing: [{ min: 1, price: 699 }],
     originalPrice: 845,
+  },
+
+  {
+    id: 'bundle-school',
+    name: 'ערכת בית ספר',
+    description: 'כל מה שצריך לבית הספר — סט דו-צדדי, תיק בית ספר וכדור כדורסל. חבילה שלמה במחיר מיוחד.',
+    category: 'bundles',
+    badge: 'חבילה לבית הספר',
+    customizable: true,
+    hasEmblem: true,
+    sizes: SIZES_ALL,
+    bundleItems: [
+      'סט אימון דו-צדדי',
+      'תיק גב פרימיום',
+      'כדור כדורסל',
+    ],
+    colors: [
+      { id: 'default', name: 'ברירת מחדל', hex: '#111111' },
+    ],
+    images: {
+      default: [img('8114.png'), img('8127.png')],
+    },
+    pricing: [{ min: 1, price: 199 }],
+    originalPrice: 230,
   },
 
   // ===========================================
@@ -299,18 +318,18 @@ export const products = [
     ],
     images: {
       gray: [img('604.jpg'), img('604-2-607.jpg')],
-      lightblue: [img('604-0-561.jpg')],
-      yellow: [img('604-1-559.jpg')],
-      red: [img('604-3-558.jpg')],
+      lightblue: [img('604-7-608.jpg')],
+      yellow: [img('604-6-612.jpg')],
+      red: [img('604-5-567.jpg')],
       navy: [img('604-4-565.jpg')],
-      darkgray: [img('604-5-567.jpg')],
-      white: [img('604-6-612.jpg')],
-      black: [img('604-7-608.jpg')],
+      darkgray: [img('604-3-558.jpg')],
+      white: [img('604-1-559.jpg')],
+      black: [img('604-0-561.jpg')],
     },
     pricing: [
-      { min: 1, price: 24 },
+      { min: 1, price: 42 },
       { min: 5, price: 36 },
-      { min: 10, price: 42 },
+      { min: 10, price: 24 },
     ],
   },
   {
@@ -336,9 +355,9 @@ export const products = [
       darkgray: [img('1237-4-1239.jpg')],
     },
     pricing: [
-      { min: 1, price: 34 },
+      { min: 1, price: 52 },
       { min: 5, price: 44 },
-      { min: 10, price: 52 },
+      { min: 10, price: 34 },
     ],
   },
   {
@@ -362,9 +381,33 @@ export const products = [
       white: [img('594-2-596.jpg')],
     },
     pricing: [
-      { min: 1, price: 38 },
+      { min: 1, price: 84 },
       { min: 5, price: 64 },
-      { min: 10, price: 84 },
+      { min: 10, price: 38 },
+    ],
+  },
+  {
+    id: 'clothing-polo-dryfit',
+    name: 'חולצת פולו דרייפיט',
+    description: 'חולצת פולו ספורטיבית מבד דרייפיט עם סמל המועדון — קלה, נושמת ומסודרת.',
+    category: 'clothing',
+    customizable: false,
+    hasEmblem: false,
+    sizes: SIZES_ALL,
+    colors: [
+      { id: 'navy', name: 'כחול כהה', hex: '#1D3557' },
+      { id: 'black', name: 'שחור', hex: '#111111' },
+      { id: 'white', name: 'לבן', hex: '#FFFFFF', border: true },
+    ],
+    images: {
+      navy: [img('598.jpg')],
+      black: [img('598-0-595.jpg')],
+      white: [img('598-1-597.jpg')],
+    },
+    pricing: [
+      { min: 1, price: 84 },
+      { min: 5, price: 64 },
+      { min: 10, price: 38 },
     ],
   },
   {
@@ -386,9 +429,9 @@ export const products = [
       gray: [img('1248-2-1246.jpg')],
     },
     pricing: [
-      { min: 1, price: 42 },
+      { min: 1, price: 88 },
       { min: 5, price: 68 },
-      { min: 10, price: 88 },
+      { min: 10, price: 42 },
     ],
   },
   {
@@ -412,9 +455,9 @@ export const products = [
       white: [img('623-3-626.jpg')],
     },
     pricing: [
-      { min: 1, price: 27 },
+      { min: 1, price: 45 },
       { min: 5, price: 37 },
-      { min: 10, price: 45 },
+      { min: 10, price: 27 },
     ],
   },
   {
@@ -438,9 +481,9 @@ export const products = [
       white: [img('552-3-555.jpg')],
     },
     pricing: [
-      { min: 1, price: 66 },
+      { min: 1, price: 98 },
       { min: 5, price: 82 },
-      { min: 10, price: 98 },
+      { min: 10, price: 66 },
     ],
   },
   {
@@ -462,9 +505,9 @@ export const products = [
       gray: [img('Sweatshirt-L-Gray.jpg')],
     },
     pricing: [
-      { min: 1, price: 48 },
+      { min: 1, price: 76 },
       { min: 5, price: 62 },
-      { min: 10, price: 76 },
+      { min: 10, price: 48 },
     ],
   },
 
@@ -480,12 +523,10 @@ export const products = [
     hasEmblem: false,
     sizes: SIZES_ONE,
     colors: [
-      { id: 'gray', name: 'אפור', hex: '#9CA3AF' },
       { id: 'black', name: 'שחור', hex: '#111111' },
     ],
     images: {
-      gray: [img('598.jpg'), img('598-0-595.jpg')],
-      black: [img('598-1-597.jpg')],
+      black: [],
     },
     pricing: [
       { min: 1, price: 74 },
@@ -574,9 +615,9 @@ export const products = [
       white: [img('498-6-503.jpg')],
     },
     pricing: [
-      { min: 1, price: 16 },
+      { min: 1, price: 35 },
       { min: 5, price: 28 },
-      { min: 10, price: 35 },
+      { min: 10, price: 16 },
     ],
   },
   {
@@ -600,9 +641,9 @@ export const products = [
       black: [img('507-3-655.jpg')],
     },
     pricing: [
-      { min: 1, price: 17 },
+      { min: 1, price: 38 },
       { min: 5, price: 30 },
-      { min: 10, price: 38 },
+      { min: 10, price: 17 },
     ],
   },
   {
@@ -622,9 +663,9 @@ export const products = [
       gray: [img('1040-1-1042.jpg')],
     },
     pricing: [
-      { min: 1, price: 29 },
+      { min: 1, price: 54 },
       { min: 5, price: 44 },
-      { min: 10, price: 54 },
+      { min: 10, price: 29 },
     ],
   },
   {
@@ -642,9 +683,9 @@ export const products = [
       gray: [img('488.jpg')],
     },
     pricing: [
-      { min: 1, price: 27 },
+      { min: 1, price: 59 },
       { min: 5, price: 48 },
-      { min: 10, price: 59 },
+      { min: 10, price: 27 },
     ],
   },
   {
@@ -666,9 +707,9 @@ export const products = [
       black: [img('641-2-644.jpg')],
     },
     pricing: [
-      { min: 1, price: 33 },
+      { min: 1, price: 51 },
       { min: 5, price: 43 },
-      { min: 10, price: 51 },
+      { min: 10, price: 33 },
     ],
   },
   {
@@ -688,9 +729,9 @@ export const products = [
       gray: [img('645-1-647.jpg')],
     },
     pricing: [
-      { min: 1, price: 39 },
+      { min: 1, price: 55 },
       { min: 5, price: 48 },
-      { min: 10, price: 55 },
+      { min: 10, price: 39 },
     ],
   },
   {
@@ -708,9 +749,9 @@ export const products = [
       natural: [img('494.jpg')],
     },
     pricing: [
-      { min: 1, price: 21 },
+      { min: 1, price: 44 },
       { min: 5, price: 35 },
-      { min: 10, price: 44 },
+      { min: 10, price: 21 },
     ],
   },
   {
@@ -728,9 +769,9 @@ export const products = [
       white: [img('496.jpg')],
     },
     pricing: [
-      { min: 1, price: 32 },
+      { min: 1, price: 59 },
       { min: 5, price: 49 },
-      { min: 10, price: 59 },
+      { min: 10, price: 32 },
     ],
   },
   {
@@ -748,9 +789,9 @@ export const products = [
       white: [img('486.jpg')],
     },
     pricing: [
-      { min: 1, price: 21 },
+      { min: 1, price: 49 },
       { min: 5, price: 38 },
-      { min: 10, price: 49 },
+      { min: 10, price: 21 },
     ],
   },
   {
@@ -768,9 +809,9 @@ export const products = [
       white: [img('522.jpg')],
     },
     pricing: [
-      { min: 1, price: 16 },
+      { min: 1, price: 34 },
       { min: 5, price: 27 },
-      { min: 10, price: 34 },
+      { min: 10, price: 16 },
     ],
   },
   {
@@ -788,9 +829,9 @@ export const products = [
       black: [img('389.jpg')],
     },
     pricing: [
-      { min: 1, price: 34 },
+      { min: 1, price: 74 },
       { min: 5, price: 58 },
-      { min: 10, price: 74 },
+      { min: 10, price: 34 },
     ],
   },
   {
@@ -808,9 +849,9 @@ export const products = [
       white: [img('387.jpg')],
     },
     pricing: [
-      { min: 1, price: 13 },
+      { min: 1, price: 34 },
       { min: 5, price: 27 },
-      { min: 10, price: 34 },
+      { min: 10, price: 13 },
     ],
   },
 ];
